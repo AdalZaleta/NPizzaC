@@ -17,9 +17,11 @@ namespace IA
         public string Dialogo;
         public List<Nodo> Hijos;
         public Actions Action;
+        public bool IsUserResponse;
 
-        public Nodo(string dialogo, Actions act = Actions.Nada)
+        public Nodo(string dialogo, bool isUser, Actions act = Actions.Nada)
         {
+            IsUserResponse = isUser;
             Hijos = new List<Nodo>();
             Dialogo = dialogo;
             Action = act;
