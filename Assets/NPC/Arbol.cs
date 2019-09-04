@@ -7,6 +7,7 @@ namespace IA
     public class Arbol : MonoBehaviour
     {
         public Nodo Root = new Nodo("Hola", false);
+        bool NextDiag;
         private void Start()
         {
             //nivel final
@@ -53,11 +54,55 @@ namespace IA
             Root.Hijos.Add(Hola);
             Root.Hijos.Add(MeHablas);
             Root.Hijos.Add(Silencio1);
+
+            StartCoroutine("StartDialog");
         }
 
-        public void StartDialog()
+        private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Space)){
+                if (!NextDiag)
+                    NextDiag = true;
+            }
+        }
 
+        public IEnumerator StartDialog()
+        {
+            Nodo Temp = Root;
+            bool prnt = true;
+            while (Temp.Action == Actions.Nada)
+            {
+                if (prnt)
+                {
+                    Debug.ClearDeveloperConsole();
+                    if (!Temp.IsUserResponse)
+                    {
+                        Debug.Log("NPC SAYS: " + Temp.Dialogo);
+                        Debug.Log("Posibles respuestas:");
+                        for (int i = 0; i < Temp.Hijos.Count; i++)
+                        {
+                            Debug.Log("__" + Temp.Hijos[i].Dialogo);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("USER SAYS: " + Temp.Dialogo);
+                        NextDiag = true;
+                    }
+                    prnt = false;
+                }
+
+                if (NextDiag)
+                {
+                    yield return new WaitForEndOfFrame();
+                    NextDiag = false;
+                    Temp = Temp.Hijos.SelectOneRandom();
+                    prnt = true;
+                }
+                else
+                    yield return new WaitForEndOfFrame();
+            }
+            print("FINALIZADO. ACTION: " + Temp.Action);
         }
     }
 }
