@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arbol : MonoBehaviour
+namespace IA
 {
-    
+    public class Arbol : MonoBehaviour
+    {
+        public Nodo Root = new Nodo();
+        private void Start()
+        {
+        }
+    }
 }
+

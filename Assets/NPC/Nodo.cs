@@ -2,9 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Nodo 
+namespace IA
 {
-    public Nodo padre;
-    public string Dialgo;
-    public List<Nodo> Hijos;
+    public enum Actions
+    {
+        Repetir,
+        Matar,
+        Pizza,
+        Nada
+    }
+    [System.Serializable]
+    public struct Nodo
+    {
+        public string Dialogo;
+        public List<Nodo> Hijos;
+        public Actions Action;
+
+        public Nodo(string dialogo, Actions act = Actions.Nada)
+        {
+            Hijos = new List<Nodo>();
+            Dialogo = dialogo;
+            Action = act;
+        }
+    }
 }
+
