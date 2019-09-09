@@ -26,6 +26,9 @@ namespace IA
 
         void InitializeTree()
         {
+            if (Manager.ArbolNPC == null)
+                Manager.ArbolNPC = this;
+
             //nivel final
             Nodo Vamos = new Nodo("Yo conozco una mejor, vamos", false, Actions.Pizza);
             Nodo TeMuestro = new Nodo("Yo te muestro una", false, Actions.Pizza);
@@ -72,6 +75,7 @@ namespace IA
             Root.Hijos.Add(Silencio1);
 
             Temp = Root;
+            //StartCoroutine("StartDialog");
         }
 
         private void Update()
