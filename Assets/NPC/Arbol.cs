@@ -10,6 +10,9 @@ namespace IA
         bool NextDiag;
         private void Start()
         {
+            if (Manager.ArbolNPC == null)
+                Manager.ArbolNPC = this;
+
             //nivel final
             Nodo Vamos = new Nodo("Yo conozco una mejor, vamos", false, Actions.Pizza);
             Nodo TeMuestro = new Nodo("Yo te muestro una", false, Actions.Pizza);
@@ -55,7 +58,7 @@ namespace IA
             Root.Hijos.Add(MeHablas);
             Root.Hijos.Add(Silencio1);
 
-            StartCoroutine("StartDialog");
+            //StartCoroutine("StartDialog");
         }
 
         private void Update()
@@ -64,6 +67,11 @@ namespace IA
                 if (!NextDiag)
                     NextDiag = true;
             }
+        }
+
+        public void IniciaDialogo()
+        {
+            StartCoroutine("StartDialog");
         }
 
         public IEnumerator StartDialog()
