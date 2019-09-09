@@ -1,14 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 namespace IA
 {
     public class Arbol : MonoBehaviour
     {
+        [HideInInspector]
         public Nodo Root = new Nodo("Hola", false);
+        public GameObject Dialogo;
+        public GameObject Respuestas;
+        public GameObject PrefbRespuestas;
         bool NextDiag;
+        public float letterPause = 0.2f;
+        Nodo Temp;
+
         private void Start()
+        {
+            InitializeTree();
+            StartConversation();
+            //StartCoroutine("StartDialog");
+        }
+
+        void InitializeTree()
         {
             //nivel final
             Nodo Vamos = new Nodo("Yo conozco una mejor, vamos", false, Actions.Pizza);
@@ -55,7 +71,7 @@ namespace IA
             Root.Hijos.Add(MeHablas);
             Root.Hijos.Add(Silencio1);
 
-            StartCoroutine("StartDialog");
+            Temp = Root;
         }
 
         private void Update()
@@ -64,6 +80,56 @@ namespace IA
                 if (!NextDiag)
                     NextDiag = true;
             }
+        }
+
+        public void StartConversation()
+        {
+            TextMeshProUGUI DialogoNPC = Dialogo.gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            GameObject go;
+                
+            //Debug.Log("NPC SAYS: " + Temp.Dialogo);
+            DialogoNPC.text = Temp.Dialogo;
+            //Debug.Log("Posibles respuestas:");
+            //Debug.Log("Mis hijos: " + Temp.Hijos.Count);
+            if (Respuestas.transform.childCount > 0)
+            {
+                Debug.Log("Cleaning childs...");
+                while (Respuestas.transform.childCount > 0)
+                {
+                    Transform child = Respuestas.transform.GetChild(0);
+                    child.parent = null;
+                    Destroy(child.gameObject);
+                }
+            }
+
+            for (int i = 0; i < Temp.Hijos.Count; i++)
+            {
+                int tempnum = i;
+                go = Instantiate(PrefbRespuestas, Vector3.zero, Quaternion.identity);
+                //Debug.Log("Intancia del Objeto relizada");
+                go.GetComponentInChildren<Button>().onClick.AddListener(() => NextDialog(tempnum));
+                go.GetComponentInChildren<TextMeshProUGUI>().text = Temp.Hijos[i].Dialogo;
+                go.gameObject.transform.SetParent(Respuestas.transform);
+                go.transform.localPosition = Vector3.zero;
+                //Debug.Log("Posición Local seteada a cero");
+                go.transform.localScale = Vector3.one;
+                //Debug.Log("Escala local seteada a cero");
+                //Debug.Log("__" + Temp.Hijos[i].Dialogo);
+            }
+
+            print("FINALIZADO. ACTION: " + Temp.Action);
+        }
+
+        public void NextDialog(int _hijo)
+        {
+            Debug.Log("Valor que recibi de hijo: " + _hijo);
+            Temp = Temp.Hijos[_hijo];
+            Debug.Log("Mis nietos: " + Temp.Hijos.Count);
+            if(Temp.Action == Actions.Nada)
+            {
+                StartConversation();
+            }
+
         }
 
         public IEnumerator StartDialog()
