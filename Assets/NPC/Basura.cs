@@ -15,7 +15,6 @@ public class Basura : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("coolided w/" + collision.collider.gameObject.name);
         if (collision.collider.gameObject.CompareTag("Player"))
         {
             GetComponent<Renderer>().material.color = hit ? Random.ColorHSV() : Color.blue;

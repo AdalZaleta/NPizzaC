@@ -97,7 +97,6 @@ namespace IA
             //Debug.Log("Mis hijos: " + Temp.Hijos.Count);
             if (Respuestas.transform.childCount > 0)
             {
-                Debug.Log("Cleaning childs...");
                 while (Respuestas.transform.childCount > 0)
                 {
                     Transform child = Respuestas.transform.GetChild(0);
@@ -115,20 +114,15 @@ namespace IA
                 go.GetComponentInChildren<TextMeshProUGUI>().text = Temp.Hijos[i].Dialogo;
                 go.gameObject.transform.SetParent(Respuestas.transform);
                 go.transform.localPosition = Vector3.zero;
-                //Debug.Log("Posición Local seteada a cero");
-                go.transform.localScale = Vector3.one;
-                //Debug.Log("Escala local seteada a cero");
-                //Debug.Log("__" + Temp.Hijos[i].Dialogo);
-            }
 
-            print("FINALIZADO. ACTION: " + Temp.Action);
+                go.transform.localScale = Vector3.one;
+
+            }
         }
 
         public void NextDialog(int _hijo)
         {
-            Debug.Log("Valor que recibi de hijo: " + _hijo);
             Temp = Temp.Hijos[_hijo];
-            Debug.Log("Mis nietos: " + Temp.Hijos.Count);
             if(Temp.Action == Actions.Nada)
             {
                 StartConversation();
