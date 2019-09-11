@@ -20,7 +20,7 @@ namespace IA
         private void Start()
         {
             InitializeTree();
-            StartConversation();
+            //StartConversation();
             //StartCoroutine("StartDialog");
         }
 

@@ -33,7 +33,7 @@ namespace IA
                 {
                     isTalking = true;
                     //mandar llamar el método de dialogo
-                    Manager.ArbolNPC.IniciaDialogo();
+                    Manager.ArbolNPC.StartConversation();
                 }
             }
             
