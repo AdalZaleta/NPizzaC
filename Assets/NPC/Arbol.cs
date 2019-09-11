@@ -88,9 +88,16 @@ namespace IA
 
         public void StartConversation()
         {
+            TextMeshProUGUI NombreNPC = Dialogo.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            NombreNPC.text = "Pepe:";
             TextMeshProUGUI DialogoNPC = Dialogo.gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             GameObject go;
-                
+
+            if (Temp.IsUserResponse) //si es dialogo del NPizzaC
+            {
+                NextDialog(Random.Range(0, Temp.Hijos.Count));
+            }
+
             //Debug.Log("NPC SAYS: " + Temp.Dialogo);
             DialogoNPC.text = Temp.Dialogo;
             //Debug.Log("Posibles respuestas:");
@@ -105,6 +112,7 @@ namespace IA
                 }
             }
 
+            
             for (int i = 0; i < Temp.Hijos.Count; i++)
             {
                 int tempnum = i;
@@ -123,8 +131,23 @@ namespace IA
         public void NextDialog(int _hijo)
         {
             Temp = Temp.Hijos[_hijo];
-            if(Temp.Action == Actions.Nada)
+            if (Temp.Action == Actions.Nada)
             {
+                StartConversation();
+            }
+            else if (Temp.Action == Actions.Matar)
+            {
+                Manager.Player.Matar();
+                gameObject.GetComponent<Collider>().enabled = false;
+                gameObject.AddComponent<Rigidbody>();
+            }
+            else if (Temp.Action == Actions.Pizza)
+            {
+                Manager.Player.Cohete();
+            }
+            else if (Temp.Action == Actions.Repetir)
+            {
+                Temp = Root;
                 StartConversation();
             }
 

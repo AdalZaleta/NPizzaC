@@ -6,7 +6,6 @@ namespace IA
 {
     public class PlayerController : MonoBehaviour
     {
-        Rigidbody rb;
         [SerializeField]
         float speed = 1;
         bool isTalking = false;
@@ -36,6 +35,20 @@ namespace IA
                     Manager.ArbolNPC.StartConversation();
                 }
             }
+            
+        }
+
+        public void Matar()
+        {
+            transform.GetChild(1).gameObject.GetComponent<Collider>().enabled = false;
+            transform.GetChild(1).gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        }
+
+        public void Cohete()
+        {
+            transform.GetChild(1).gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            transform.GetChild(1).gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * 10000);
+            transform.DetachChildren();
             
         }
     }
