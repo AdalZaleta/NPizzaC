@@ -24,7 +24,7 @@ namespace IA
             {
                 float horizontal = Input.GetAxis("Horizontal");
                 float vertical = Input.GetAxis("Vertical");
-                transform.Translate(new Vector3(horizontal, 0, vertical) * speed);
+                transform.Translate(new Vector3(horizontal, 0, vertical) * speed * Time.deltaTime);
 
                 //Distancia con el npc
                 float distance = Vector3.Distance(transform.position, Manager.ArbolNPC.gameObject.transform.position);
